@@ -1,0 +1,51 @@
+modules = ["bash"]
+
+[nix]
+channel = "stable-24_05"
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "DevNovate-Setup"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "setup_script_execution"
+
+[[workflows.workflow]]
+name = "DevNovate-Setup"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "chmod +x setup.sh && ./setup.sh"
+
+[[workflows.workflow]]
+name = "setup_script_execution"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "chmod +x setup.sh && ./setup.sh"
+
+[deployment]
+run = ["sh", "-c", "chmod +x setup.sh && ./setup.sh"]
