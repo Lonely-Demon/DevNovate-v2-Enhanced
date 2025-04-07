@@ -205,17 +205,11 @@ export function Challenges({ hackathons, isLoading }: ChallengesProps) {
                   className={`flex gap-3 md:space-x-6 overflow-x-auto pb-4 snap-x snap-mandatory ${isMobile ? 'scrollbar-challenges' : 'scrollbar-hide'}`}
                   style={{ scrollBehavior: 'smooth' }}
                 >
-                  {/* Swipe indicator for mobile - shows at the beginning */}
-                  {isMobile && (
-                    <div className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-70 rounded-full p-1 shadow-md z-10 animate-pulse">
-                      <ArrowRight className="h-4 w-4 text-purple-600" />
-                    </div>
-                  )}
                   {/* Mobile optimized scrollable cards with preview of next card */}
                   {hackathons.map((hackathon) => (
                     <Card 
                       key={`scroll-${hackathon.id}`}
-                      className={`${isMobile ? 'min-w-[80vw] max-w-[80vw]' : 'sm:min-w-[280px] md:min-w-[320px] md:max-w-[320px]'} flex-shrink-0 snap-start bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col border border-gray-100`}
+                      className={`${isMobile ? 'min-w-[75vw]' : 'sm:min-w-[280px] md:min-w-[320px] md:max-w-[320px]'} flex-shrink-0 snap-start bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col border border-gray-100`}
                     >
                       {/* Optional small image for mobile */}
                       {isMobile && hackathon.imageUrl && (
@@ -255,13 +249,15 @@ export function Challenges({ hackathons, isLoading }: ChallengesProps) {
                   ))}
                 </div>
                 
-                {/* Visual cue instead of pagination dots */}
+                {/* Scroll indicator for mobile */}
                 {isMobile && (
-                  <div className="flex justify-center items-center mt-4 mb-2 text-xs text-gray-500 font-medium">
-                    <div className="flex items-center gap-1.5">
-                      <ArrowRight className="h-3 w-3 text-purple-400" />
-                      <span>Swipe to explore more</span>
-                    </div>
+                  <div className="flex justify-center mt-4 mb-2 space-x-1.5">
+                    {hackathons.map((_, index) => (
+                      <div 
+                        key={index} 
+                        className="w-1.5 h-1.5 rounded-full bg-purple-400 opacity-60"
+                      />
+                    ))}
                   </div>
                 )}
               </div>

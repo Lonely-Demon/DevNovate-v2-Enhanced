@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { Star, ArrowLeft, ArrowRight, Quote, Check, Award, Sparkles, Zap } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 // Updated testimonials with purple-pink gradient theme
 const testimonials = [
@@ -88,7 +87,6 @@ export function Testimonials() {
   const [hoveredCardId, setHoveredCardId] = useState<number | null>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
   const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
-  const isMobile = useIsMobile();
   
   // Function to handle the automatic sliding
   const autoPlay = () => {
@@ -162,43 +160,30 @@ export function Testimonials() {
         </div>
         
         {/* Enhanced continuous auto-scrolling testimonial carousel */}
-        <div className="mb-8 md:mb-10 relative">
-          {/* Navigation controls - hidden on mobile */}
-          {!isMobile && (
-            <div className="flex justify-end items-center mb-8">
-              <div className="flex space-x-2">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={handlePrev}
-                  className="rounded-full w-10 h-10 hover:bg-purple-500/10 hover:text-purple-600 border-gray-200"
-                >
-                  <ArrowLeft className="h-5 w-5" />
-                  <span className="sr-only">Previous</span>
-                </Button>
-                
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={handleNext}
-                  className="rounded-full w-10 h-10 hover:bg-purple-500/10 hover:text-purple-600 border-gray-200"
-                >
-                  <ArrowRight className="h-5 w-5" />
-                  <span className="sr-only">Next</span>
-                </Button>
-              </div>
+        <div className="mb-10 relative">
+          <div className="flex justify-end items-center mb-8">
+            <div className="flex space-x-2">
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={handlePrev}
+                className="rounded-full w-10 h-10 hover:bg-purple-500/10 hover:text-purple-600 border-gray-200"
+              >
+                <ArrowLeft className="h-5 w-5" />
+                <span className="sr-only">Previous</span>
+              </Button>
+              
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={handleNext}
+                className="rounded-full w-10 h-10 hover:bg-purple-500/10 hover:text-purple-600 border-gray-200"
+              >
+                <ArrowRight className="h-5 w-5" />
+                <span className="sr-only">Next</span>
+              </Button>
             </div>
-          )}
-          
-          {/* Swipe indicator for mobile */}
-          {isMobile && (
-            <div className="absolute top-2 right-2 z-10">
-              <div className="flex items-center gap-1.5 bg-white bg-opacity-80 rounded-full px-2.5 py-1 shadow-sm text-xs text-purple-700 font-medium">
-                <ArrowRight className="h-3 w-3" />
-                <span>Swipe</span>
-              </div>
-            </div>
-          )}
+          </div>
           
           {/* Carousel container with auto-scroll and hover pause functionality */}
           <div 
@@ -211,14 +196,14 @@ export function Testimonials() {
           >
             <div 
               ref={carouselRef}
-              className={`flex ${isMobile ? 'gap-4 snap-x snap-mandatory' : 'space-x-6'} overflow-x-auto pb-4 ${isMobile ? 'scrollbar-testimonials' : 'scrollbar-hide'}`}
+              className="flex space-x-6 overflow-x-auto pb-4 scrollbar-hide"
               style={{ scrollBehavior: 'smooth' }}
             >
               {/* Duplicate testimonials for infinite effect */}
               {[...testimonials, ...testimonials, ...testimonials].map((testimonial, index) => (
                 <div 
                   key={`${testimonial.id}-${index}`}
-                  className={`${isMobile ? 'min-w-[85vw] snap-start' : 'min-w-[300px] w-[300px]'} transition-all duration-300 ease-out flex-shrink-0 pt-1 pb-3`}
+                  className="min-w-[300px] w-[300px] transition-all duration-300 ease-out flex-shrink-0 pt-1 pb-3"
                   onMouseEnter={() => setHoveredCardId(testimonial.id)}
                   onMouseLeave={() => setHoveredCardId(null)}
                 >
@@ -267,18 +252,15 @@ interface TestimonialCardProps {
 }
 
 function TestimonialCard({ testimonial, isHovered }: TestimonialCardProps) {
-  // Use our mobile detection for responsive design
-  const isMobile = useIsMobile();
-  
   return (
     <Card 
       className={`h-full rounded-xl overflow-hidden border-0 shadow-sm transition-all duration-300 bg-gradient-to-br from-purple-50 to-pink-50 ${
-        isHovered && !isMobile
+        isHovered 
           ? 'transform scale-105 shadow-md z-20' 
           : 'hover:shadow hover:-translate-y-1'
       }`}
     >
-      <CardContent className={`${isMobile ? 'p-4' : 'p-6'} relative h-[250px] flex flex-col`}>
+      <CardContent className="p-6 relative h-[250px] flex flex-col">
         {/* User Info and Quote Icon in Header */}
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center">
@@ -328,7 +310,7 @@ function TestimonialCard({ testimonial, isHovered }: TestimonialCardProps) {
         </p>
         
         {/* Footer with achievement and challenges */}
-        <div className={`flex items-center ${isMobile ? 'flex-col items-start gap-2' : 'justify-between'} text-xs pt-2 mt-auto border-t border-gray-100`}>
+        <div className="flex items-center justify-between text-xs pt-2 mt-auto border-t border-gray-100">
           <div className="flex items-center text-purple-600 font-medium">
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none">
               <path d="M12.5 22.5H2.50002C1.5 22.5 1 22 1 21V20.5C1 14.9772 5.47715 10.5 11 10.5H12C17.5228 10.5 22 14.9772 22 20.5V21C22 22 21.5 22.5 20.5 22.5H12.5Z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>
