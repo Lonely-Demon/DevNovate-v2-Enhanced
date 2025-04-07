@@ -5,51 +5,70 @@ import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { useIsMobile } from "@/hooks/use-mobile";
 
-// Simplified and fixed navbar with working mobile menu
+// Inspired by Linear, Vercel, Stripe, and Framer
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const dropdownRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
-  const menuRef = useRef<HTMLDivElement | null>(null);
-  const buttonRef = useRef<HTMLButtonElement | null>(null);
   const isMobile = useIsMobile();
   
-  // Handle scrolling effect
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-  
-  // Handle outside clicks to close menu
+  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        isMenuOpen && 
-        menuRef.current && 
-        buttonRef.current && 
-        !menuRef.current.contains(event.target as Node) && 
-        !buttonRef.current.contains(event.target as Node)
-      ) {
-        setIsMenuOpen(false);
+      if (activeDropdown && dropdownRefs.current[activeDropdown] && 
+          !dropdownRefs.current[activeDropdown]?.contains(event.target as Node)) {
+        setActiveDropdown(null);
       }
     };
     
-    // Prevent body scroll when menu is open
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [activeDropdown]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+  
+  const menuRef = useRef<HTMLDivElement | null>(null);
+  
+  useEffect(() => {
+    // Disable body scroll when mobile menu is open
     if (isMenuOpen) {
       document.body.style.overflow = 'hidden';
-      document.addEventListener('mousedown', handleClickOutside);
+      
+      // Add click outside handler for mobile menu
+      const handleClickOutsideMobileMenu = (event: MouseEvent) => {
+        if (menuRef.current && !menuRef.current.contains(event.target as Node) && 
+            !(event.target as Element).closest('button[aria-label="Toggle menu"]')) {
+          setIsMenuOpen(false);
+        }
+      };
+      
+      document.addEventListener('mousedown', handleClickOutsideMobileMenu);
+      return () => {
+        document.body.style.overflow = '';
+        document.removeEventListener('mousedown', handleClickOutsideMobileMenu);
+      };
     } else {
       document.body.style.overflow = '';
     }
     
     return () => {
       document.body.style.overflow = '';
-      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isMenuOpen]);
 
@@ -378,7 +397,6 @@ export function Navbar() {
             
             {/* Mobile menu button */}
             <button
-              ref={buttonRef}
               className="lg:hidden ml-4 p-1 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label="Toggle menu"
