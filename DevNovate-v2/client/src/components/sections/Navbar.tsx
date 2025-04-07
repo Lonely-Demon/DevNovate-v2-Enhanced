@@ -43,10 +43,26 @@ export function Navbar() {
     };
   }, []);
   
+  const menuRef = useRef<HTMLDivElement | null>(null);
+  
   useEffect(() => {
     // Disable body scroll when mobile menu is open
     if (isMenuOpen) {
       document.body.style.overflow = 'hidden';
+      
+      // Add click outside handler for mobile menu
+      const handleClickOutsideMobileMenu = (event: MouseEvent) => {
+        if (menuRef.current && !menuRef.current.contains(event.target as Node) && 
+            !(event.target as Element).closest('button[aria-label="Toggle menu"]')) {
+          setIsMenuOpen(false);
+        }
+      };
+      
+      document.addEventListener('mousedown', handleClickOutsideMobileMenu);
+      return () => {
+        document.body.style.overflow = '';
+        document.removeEventListener('mousedown', handleClickOutsideMobileMenu);
+      };
     } else {
       document.body.style.overflow = '';
     }
@@ -398,7 +414,8 @@ export function Navbar() {
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
-              className="lg:hidden mt-3 mx-auto bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden absolute left-0 right-0 z-50"
+              ref={menuRef}
+              className="lg:hidden mt-3 mx-auto bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden fixed left-0 right-0 top-14 z-50 max-h-[80vh] overflow-y-auto"
               initial="hidden"
               animate="visible"
               exit="exit"

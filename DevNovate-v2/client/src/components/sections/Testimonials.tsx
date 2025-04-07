@@ -276,8 +276,8 @@ function TestimonialCard({ testimonial, isHovered }: TestimonialCardProps) {
             <div className="ml-2">
               <h4 className="font-bold text-gray-900 text-sm">{testimonial.name}</h4>
               <div className="flex flex-col">
-                <p className="text-xs text-gray-600 leading-tight">{testimonial.role.split(' ')[0]} {testimonial.role.split(' ')[1]}</p>
-                <p className="text-xs text-gray-600 leading-tight">{testimonial.role.split(' ')[2]}</p>
+                <p className="text-xs text-gray-600 leading-tight">{testimonial.university}</p>
+                <p className="text-xs text-gray-600 leading-tight">{testimonial.role}</p>
               </div>
             </div>
           </div>
