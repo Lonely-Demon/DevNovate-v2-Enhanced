@@ -1,10 +1,11 @@
 import React, { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, CheckCircle, Clock } from "lucide-react";
+import { Search, CheckCircle, Clock, Users } from "lucide-react";
 import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 // Import other sections
 import { Sponsors } from "@/components/sections/Sponsors";
@@ -19,6 +20,7 @@ export default function LandingPage() {
   // State for challenge categories and carousel
   const [activeCategory, setActiveCategory] = useState("Hackathons");
   const challengesRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
   
   // Fetch featured hackathons for the homepage
   const { data: featuredHackathons = [], isLoading } = useQuery({
@@ -320,7 +322,7 @@ export default function LandingPage() {
           </div>
           
           {/* Challenge Type Filter - Pill style inspired by Novu.co */}
-          <div className="flex flex-wrap gap-2 mb-8 pb-2 overflow-x-auto hide-scrollbar">
+          <div className="flex flex-wrap gap-2 mb-8 pb-2 overflow-x-auto scrollbar-challenges">
             {[
               { name: "Hackathons", icon: "code" },
               { name: "Competitions", icon: "trophy" },
@@ -368,23 +370,25 @@ export default function LandingPage() {
           
           {/* Carousel of cards with modern styling */}
           <div className="relative py-4 mb-8">
-            {/* Left Arrow - more visible for college students */}
-            <button 
-              onClick={scrollLeft}
-              className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 w-12 h-12 bg-white hover:bg-gray-50 
-              rounded-full shadow-md border border-gray-100 flex items-center justify-center transition-all duration-300"
-              aria-label="Previous"
-            >
+            {/* Left Arrow - hidden on mobile */}
+            {!isMobile && (
+              <button 
+                onClick={scrollLeft}
+                className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 w-12 h-12 bg-white hover:bg-gray-50 
+                rounded-full shadow-md border border-gray-100 flex items-center justify-center transition-all duration-300"
+                aria-label="Previous"
+              >
               <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
-            </button>
+              </button>
+            )}
             
             {/* Carousel Content - elevated cards with subtle shadows */}
             <div className="mx-14">
               <div 
                 ref={challengesRef}
-                className="flex space-x-6 overflow-x-auto pb-8 scrollbar-hide snap-x"
+                className="flex space-x-6 overflow-x-auto pb-8 scrollbar-challenges snap-x"
               >
                 {challengesByCategory[activeCategory as keyof typeof challengesByCategory].map((challenge) => (
                   <div 
@@ -406,19 +410,15 @@ export default function LandingPage() {
                     <h3 className="font-bold text-xl mb-2 text-gray-900">{challenge.title}</h3>
                     <p className="text-gray-600 mb-4 flex-grow text-sm leading-relaxed">{challenge.description}</p>
                     
-                    {/* Participants showcase - more fun for college students */}
+                    {/* Participants showcase with bubbles */}
                     <div className="flex items-center justify-between mb-4 bg-gray-50 p-3 rounded-lg">
-                      <div className="flex items-center">
-                        <div className="flex -space-x-2 mr-2">
-                          <img src={`https://i.pravatar.cc/100?img=${challenge.id + 10}`} alt="Participant" className="w-8 h-8 rounded-full border-2 border-white" />
-                          <img src={`https://i.pravatar.cc/100?img=${challenge.id + 20}`} alt="Participant" className="w-8 h-8 rounded-full border-2 border-white" />
-                          <img src={`https://i.pravatar.cc/100?img=${challenge.id + 30}`} alt="Participant" className="w-8 h-8 rounded-full border-2 border-white" />
-                        </div>
-                        <span className="text-xs font-medium text-gray-700">+{challenge.registrations - 3} more</span>
+                      <div className="px-3 py-1 bg-blue-100 rounded-full text-xs flex items-center gap-1.5 whitespace-nowrap font-medium text-blue-700">
+                        <Users className="w-3.5 h-3.5" />
+                        {challenge.registrations} participants
                       </div>
-                      <div className="flex items-center text-xs font-medium text-gray-700">
-                        <Clock className="w-4 h-4 mr-1 text-primary" />
-                        <span>{challenge.daysLeft}d left</span>
+                      <div className="px-3 py-1 bg-amber-100 rounded-full text-xs flex items-center gap-1.5 whitespace-nowrap font-medium text-amber-700">
+                        <Clock className="w-3.5 h-3.5" />
+                        {challenge.daysLeft}d left
                       </div>
                     </div>
                     
@@ -442,17 +442,19 @@ export default function LandingPage() {
               </div>
             </div>
             
-            {/* Right Arrow - more visible for college students */}
-            <button 
-              onClick={scrollRight}
-              className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 w-12 h-12 bg-white hover:bg-gray-50 
-              rounded-full shadow-md border border-gray-100 flex items-center justify-center transition-all duration-300"
-              aria-label="Next"
-            >
-              <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
+            {/* Right Arrow - hidden on mobile */}
+            {!isMobile && (
+              <button 
+                onClick={scrollRight}
+                className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 w-12 h-12 bg-white hover:bg-gray-50 
+                rounded-full shadow-md border border-gray-100 flex items-center justify-center transition-all duration-300"
+                aria-label="Next"
+              >
+                <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            )}
           </div>
           
           {/* CTA - Direct and straightforward like ruul.io */}
@@ -522,6 +524,31 @@ export default function LandingPage() {
               
               .one-click-button .flow-animation {
                 animation-play-state: paused;
+              }
+              
+              /* Custom scrollbar for challenges */
+              .scrollbar-challenges::-webkit-scrollbar {
+                height: 6px;
+                width: 6px;
+              }
+              
+              .scrollbar-challenges::-webkit-scrollbar-track {
+                border-radius: 100vh;
+                background: #f3f4f6;
+              }
+              
+              .scrollbar-challenges::-webkit-scrollbar-thumb {
+                background: #8b5cf6;
+                border-radius: 100vh;
+              }
+              
+              .scrollbar-challenges::-webkit-scrollbar-thumb:hover {
+                background: #6d28d9;
+              }
+              
+              .scrollbar-challenges {
+                scrollbar-width: thin;
+                scrollbar-color: #8b5cf6 #f3f4f6;
               }
             `
           }} />
