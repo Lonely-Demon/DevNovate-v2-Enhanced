@@ -173,27 +173,30 @@ export function Challenges({ hackathons, isLoading }: ChallengesProps) {
                 <h3 className="text-lg md:text-xl font-bold">
                   <span className="bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">More opportunities</span>
                 </h3>
-                <div className="flex space-x-2">
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => scrollCards('left')}
-                    className="rounded-full w-8 h-8 md:w-10 md:h-10 hover:bg-purple-500/10 hover:text-purple-600 border-gray-200"
-                  >
-                    <ArrowLeft className="h-4 w-4 md:h-5 md:w-5" />
-                    <span className="sr-only">Previous</span>
-                  </Button>
-                  
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => scrollCards('right')}
-                    className="rounded-full w-8 h-8 md:w-10 md:h-10 hover:bg-purple-500/10 hover:text-purple-600 border-gray-200"
-                  >
-                    <ArrowRight className="h-4 w-4 md:h-5 md:w-5" />
-                    <span className="sr-only">Next</span>
-                  </Button>
-                </div>
+                {/* Show arrows only on desktop */}
+                {!isMobile && (
+                  <div className="flex space-x-2">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => scrollCards('left')}
+                      className="rounded-full w-8 h-8 md:w-10 md:h-10 hover:bg-purple-500/10 hover:text-purple-600 border-gray-200"
+                    >
+                      <ArrowLeft className="h-4 w-4 md:h-5 md:w-5" />
+                      <span className="sr-only">Previous</span>
+                    </Button>
+                    
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => scrollCards('right')}
+                      className="rounded-full w-8 h-8 md:w-10 md:h-10 hover:bg-purple-500/10 hover:text-purple-600 border-gray-200"
+                    >
+                      <ArrowRight className="h-4 w-4 md:h-5 md:w-5" />
+                      <span className="sr-only">Next</span>
+                    </Button>
+                  </div>
+                )}
               </div>
               
               <div className="overflow-hidden">
@@ -202,11 +205,11 @@ export function Challenges({ hackathons, isLoading }: ChallengesProps) {
                   className="flex gap-3 md:space-x-6 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide"
                   style={{ scrollBehavior: 'smooth' }}
                 >
-                  {/* More mobile-friendly scrollable cards */}
+                  {/* Mobile optimized scrollable cards with preview of next card */}
                   {hackathons.map((hackathon) => (
                     <Card 
                       key={`scroll-${hackathon.id}`}
-                      className="min-w-[85vw] sm:min-w-[280px] md:min-w-[320px] md:max-w-[320px] flex-shrink-0 snap-start bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col border border-gray-100"
+                      className={`${isMobile ? 'min-w-[75vw]' : 'sm:min-w-[280px] md:min-w-[320px] md:max-w-[320px]'} flex-shrink-0 snap-start bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col border border-gray-100`}
                     >
                       {/* Optional small image for mobile */}
                       {isMobile && hackathon.imageUrl && (
@@ -245,6 +248,18 @@ export function Challenges({ hackathons, isLoading }: ChallengesProps) {
                     </Card>
                   ))}
                 </div>
+                
+                {/* Scroll indicator for mobile */}
+                {isMobile && (
+                  <div className="flex justify-center mt-4 mb-2 space-x-1.5">
+                    {hackathons.map((_, index) => (
+                      <div 
+                        key={index} 
+                        className="w-1.5 h-1.5 rounded-full bg-purple-400 opacity-60"
+                      />
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </>

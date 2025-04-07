@@ -1,8 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { UserCog, Search, CheckSquare, Zap, Award, Users, Clock, Sparkles, FlaskConical } from "lucide-react";
 import { motion } from "framer-motion";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export function Features() {
+  const isMobile = useIsMobile();
   return (
     <section id="features" className="py-16 md:py-24 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden">
       {/* Decorative background elements */}
@@ -32,7 +34,7 @@ export function Features() {
           transition={{ duration: 0.7 }}
         >
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-            <div className="p-8 md:p-12 flex flex-col justify-center order-2 lg:order-1">
+            <div className={`p-8 md:p-12 flex flex-col justify-center ${isMobile ? 'order-1' : 'order-2 lg:order-1'}`}>
               <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-purple-100 rounded-full text-sm font-medium mb-6">
                 <Sparkles className="w-4 h-4 text-purple-600" />
                 <span className="text-purple-600">SIGNATURE FEATURE</span>
@@ -110,7 +112,7 @@ export function Features() {
                         <p className="text-xs text-gray-500">By Microsoft Student Partners</p>
                       </div>
                     </div>
-                    <div className="px-2 py-1 bg-emerald-100 rounded-full text-xs font-medium text-emerald-700">Registration Open</div>
+                    <div className="px-2 py-1 bg-emerald-100 rounded-full text-xs whitespace-nowrap font-medium text-emerald-700">Registration Open</div>
                   </div>
                   
                   {/* Content */}
@@ -122,13 +124,13 @@ export function Features() {
                           <img src="https://i.pravatar.cc/100?img=2" alt="Participant" className="w-8 h-8 rounded-full border-2 border-white" />
                           <img src="https://i.pravatar.cc/100?img=3" alt="Participant" className="w-8 h-8 rounded-full border-2 border-white" />
                         </div>
-                        <span className="text-sm text-gray-600">127 participants</span>
+                        <span className="text-sm text-gray-600 whitespace-nowrap">127 participants</span>
                       </div>
                       <div className="flex items-center text-sm text-gray-600">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <span>5 days left</span>
+                        <span className="whitespace-nowrap">5 days left</span>
                       </div>
                     </div>
                     

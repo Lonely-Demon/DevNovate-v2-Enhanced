@@ -74,17 +74,18 @@ export function PlatformImpact({ stats, isLoading = false }: PlatformImpactProps
           </motion.div>
         </div>
         
-        {/* Mobile-optimized scrollable grid for small screens */}
+        {/* Mobile-optimized vertical scrolling with one card visible at a time */}
         {isMobile ? (
-          <div className="flex overflow-x-auto snap-x snap-mandatory space-x-4 pb-4 -mx-2 px-2">
+          <div className="relative overflow-hidden">
             {statCards.map((card, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className={`${card.color} border rounded-xl min-w-[80vw] snap-center flex-shrink-0 p-4 shadow-sm hover:shadow-md transition-all duration-300`}
+                viewport={{ once: false, margin: "-20% 0px -20% 0px" }}
+                transition={{ duration: 0.6 }}
+                className={`${card.color} border rounded-xl p-5 shadow-sm mb-4 hover:shadow-md transition-all duration-300 scroll-mt-4`}
+                id={`stat-card-${index}`}
               >
                 <div className="flex items-center space-x-3 mb-3">
                   <div>
@@ -100,7 +101,7 @@ export function PlatformImpact({ stats, isLoading = false }: PlatformImpactProps
                     <motion.span
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
-                      transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
+                      transition={{ duration: 0.5, delay: 0.2 }}
                       className="bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent"
                     >
                       {new Intl.NumberFormat().format(card.value)}
@@ -108,9 +109,21 @@ export function PlatformImpact({ stats, isLoading = false }: PlatformImpactProps
                   )}
                 </h3>
                 
-                <p className="text-xs text-gray-600">{card.description}</p>
+                <p className="text-sm text-gray-600">{card.description}</p>
               </motion.div>
             ))}
+            
+            {/* Scroll indicator dots */}
+            <div className="flex justify-center space-x-2 mt-2 mb-4">
+              {statCards.map((_, index) => (
+                <a 
+                  key={index} 
+                  href={`#stat-card-${index}`}
+                  className={`w-2 h-2 rounded-full bg-purple-600 opacity-40 hover:opacity-100 transition-opacity duration-200`}
+                  aria-label={`Go to stat card ${index + 1}`}
+                />
+              ))}
+            </div>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
