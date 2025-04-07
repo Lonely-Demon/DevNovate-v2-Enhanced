@@ -275,7 +275,10 @@ function TestimonialCard({ testimonial, isHovered }: TestimonialCardProps) {
             </div>
             <div className="ml-2">
               <h4 className="font-bold text-gray-900 text-sm">{testimonial.name}</h4>
-              <p className="text-xs text-gray-600">{testimonial.university}</p>
+              <div className="flex flex-col">
+                <p className="text-xs text-gray-600 leading-tight">{testimonial.role.split(' ')[0]} {testimonial.role.split(' ')[1]}</p>
+                <p className="text-xs text-gray-600 leading-tight">{testimonial.role.split(' ')[2]}</p>
+              </div>
             </div>
           </div>
           
@@ -315,7 +318,8 @@ function TestimonialCard({ testimonial, isHovered }: TestimonialCardProps) {
             </svg>
             <span className="ml-1.5">{testimonial.achievement}</span>
           </div>
-          <div className="text-gray-500">
+          <div className="px-2 py-1 bg-purple-100 rounded-full text-xs flex items-center gap-1 whitespace-nowrap font-medium text-purple-700">
+            <Award className="w-3 h-3" />
             {testimonial.challenges} challenges
           </div>
         </div>

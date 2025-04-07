@@ -441,22 +441,12 @@ export default function LandingPage() {
                 ))}
               </div>
               
-              {/* Mobile pagination dots and swipe indicator */}
+              {/* Mobile swipe indicator */}
               {isMobile && (
-                <div className="mt-4 flex flex-col items-center">
-                  {/* Pagination dots */}
-                  <div className="flex space-x-2 mb-3">
-                    {Array.from({ length: 4 }).map((_, i) => (
-                      <div 
-                        key={i} 
-                        className={`w-2 h-2 rounded-full ${i === 0 ? 'bg-purple-600' : 'bg-gray-300'}`}
-                      />
-                    ))}
-                  </div>
-                  
+                <div className="mt-4 mb-2 flex justify-center">
                   {/* Swipe indicator */}
-                  <div className="flex items-center text-xs text-gray-500 mb-2 font-medium">
-                    <svg className="w-4 h-4 mr-1 animate-pulse-horizontal" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <div className="flex items-center text-xs text-gray-500 font-medium bg-gray-50 px-3 py-1.5 rounded-full">
+                    <svg className="w-4 h-4 mr-1.5 animate-pulse-horizontal text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                     Swipe to see more

@@ -90,17 +90,20 @@ export function Navbar() {
   const mobileMenuVariants = {
     hidden: { 
       opacity: 0,
-      height: 0,
+      y: -10,
+      scale: 0.95,
       transition: { duration: 0.2, ease: "easeInOut" }
     },
     visible: { 
       opacity: 1,
-      height: "auto",
+      y: 0,
+      scale: 1,
       transition: { duration: 0.3, ease: "easeOut" }
     },
     exit: {
       opacity: 0,
-      height: 0,
+      y: -10,
+      scale: 0.95,
       transition: { duration: 0.2, ease: "easeInOut" }
     }
   };
@@ -395,7 +398,7 @@ export function Navbar() {
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
-              className="lg:hidden mt-3 mx-auto bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden"
+              className="lg:hidden mt-3 mx-auto bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden absolute left-0 right-0 z-50"
               initial="hidden"
               animate="visible"
               exit="exit"
