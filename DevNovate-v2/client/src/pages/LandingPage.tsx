@@ -385,7 +385,7 @@ export default function LandingPage() {
             )}
             
             {/* Carousel Content - elevated cards with subtle shadows */}
-            <div className="mx-14">
+            <div className={isMobile ? "mx-2" : "mx-14"}>
               <div 
                 ref={challengesRef}
                 className="flex space-x-6 overflow-x-auto pb-8 scrollbar-challenges snap-x"
