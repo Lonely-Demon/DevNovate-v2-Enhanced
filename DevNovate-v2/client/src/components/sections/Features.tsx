@@ -118,19 +118,13 @@ export function Features() {
                   {/* Content */}
                   <div className="p-6">
                     <div className="flex items-center justify-between mb-6">
-                      <div className="flex items-center gap-3">
-                        <div className="flex -space-x-2">
-                          <img src="https://i.pravatar.cc/100?img=1" alt="Participant" className="w-8 h-8 rounded-full border-2 border-white" />
-                          <img src="https://i.pravatar.cc/100?img=2" alt="Participant" className="w-8 h-8 rounded-full border-2 border-white" />
-                          <img src="https://i.pravatar.cc/100?img=3" alt="Participant" className="w-8 h-8 rounded-full border-2 border-white" />
-                        </div>
-                        <span className="text-sm text-gray-600 whitespace-nowrap">127 participants</span>
+                      <div className="px-3 py-1 bg-blue-100 rounded-full text-xs flex items-center gap-1.5 whitespace-nowrap font-medium text-blue-700">
+                        <Users className="w-3.5 h-3.5" />
+                        127 participants
                       </div>
-                      <div className="flex items-center text-sm text-gray-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <span className="whitespace-nowrap">5 days left</span>
+                      <div className="px-3 py-1 bg-amber-100 rounded-full text-xs flex items-center gap-1.5 whitespace-nowrap font-medium text-amber-700">
+                        <Clock className="w-3.5 h-3.5" />
+                        5 days left
                       </div>
                     </div>
                     

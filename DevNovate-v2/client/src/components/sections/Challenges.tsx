@@ -202,7 +202,7 @@ export function Challenges({ hackathons, isLoading }: ChallengesProps) {
               <div className="overflow-hidden">
                 <div 
                   ref={cardsRef}
-                  className="flex gap-3 md:space-x-6 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide"
+                  className={`flex gap-3 md:space-x-6 overflow-x-auto pb-4 snap-x snap-mandatory ${isMobile ? 'scrollbar-challenges' : 'scrollbar-hide'}`}
                   style={{ scrollBehavior: 'smooth' }}
                 >
                   {/* Mobile optimized scrollable cards with preview of next card */}

@@ -113,17 +113,7 @@ export function PlatformImpact({ stats, isLoading = false }: PlatformImpactProps
               </motion.div>
             ))}
             
-            {/* Scroll indicator dots */}
-            <div className="flex justify-center space-x-2 mt-2 mb-4">
-              {statCards.map((_, index) => (
-                <a 
-                  key={index} 
-                  href={`#stat-card-${index}`}
-                  className={`w-2 h-2 rounded-full bg-purple-600 opacity-40 hover:opacity-100 transition-opacity duration-200`}
-                  aria-label={`Go to stat card ${index + 1}`}
-                />
-              ))}
-            </div>
+            {/* No scroll indicators after the 4th card as requested */}
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
