@@ -378,9 +378,9 @@ export default function LandingPage() {
                 rounded-full shadow-md border border-gray-100 flex items-center justify-center transition-all duration-300"
                 aria-label="Previous"
               >
-              <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
+                <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
               </button>
             )}
             
@@ -388,7 +388,7 @@ export default function LandingPage() {
             <div className={isMobile ? "mx-2" : "mx-14"}>
               <div 
                 ref={challengesRef}
-                className="flex space-x-6 overflow-x-auto pb-8 scrollbar-challenges snap-x"
+                className="flex space-x-6 overflow-x-auto pb-4 scrollbar-challenges snap-x"
               >
                 {challengesByCategory[activeCategory as keyof typeof challengesByCategory].map((challenge) => (
                   <div 
@@ -440,6 +440,29 @@ export default function LandingPage() {
                   </div>
                 ))}
               </div>
+              
+              {/* Mobile pagination dots and swipe indicator */}
+              {isMobile && (
+                <div className="mt-4 flex flex-col items-center">
+                  {/* Pagination dots */}
+                  <div className="flex space-x-2 mb-3">
+                    {Array.from({ length: 4 }).map((_, i) => (
+                      <div 
+                        key={i} 
+                        className={`w-2 h-2 rounded-full ${i === 0 ? 'bg-purple-600' : 'bg-gray-300'}`}
+                      />
+                    ))}
+                  </div>
+                  
+                  {/* Swipe indicator */}
+                  <div className="flex items-center text-xs text-gray-500 mb-2 font-medium">
+                    <svg className="w-4 h-4 mr-1 animate-pulse-horizontal" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                    Swipe to see more
+                  </div>
+                </div>
+              )}
             </div>
             
             {/* Right Arrow - hidden on mobile */}
@@ -549,6 +572,20 @@ export default function LandingPage() {
               .scrollbar-challenges {
                 scrollbar-width: thin;
                 scrollbar-color: #8b5cf6 #f3f4f6;
+              }
+              
+              /* Pulse horizontal animation for swipe indicator */
+              @keyframes pulse-horizontal {
+                0%, 100% {
+                  transform: translateX(0);
+                }
+                50% {
+                  transform: translateX(3px);
+                }
+              }
+              
+              .animate-pulse-horizontal {
+                animation: pulse-horizontal 1.5s ease-in-out infinite;
               }
             `
           }} />
