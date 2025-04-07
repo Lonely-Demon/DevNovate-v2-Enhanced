@@ -74,9 +74,24 @@ export function PlatformImpact({ stats, isLoading = false }: PlatformImpactProps
           </motion.div>
         </div>
         
-        {/* Mobile-optimized vertical scrolling with one card visible at a time */}
+        {/* Mobile-optimized vertical scrolling with cards and visual enhancements */}
         {isMobile ? (
-          <div className="relative overflow-hidden">
+          <div className="relative overflow-hidden pb-10">
+            {/* Animated downward swipe indicator */}
+            <div className="absolute top-2 right-4 z-10 animate-bounce">
+              <motion.div 
+                initial={{ opacity: 0.7 }}
+                animate={{ opacity: [0.7, 1, 0.7] }}
+                transition={{ repeat: Infinity, duration: 2 }}
+                className="flex flex-col items-center text-xs text-purple-600 font-medium"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 5L12 19M12 19L18 13M12 19L6 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                <span>Scroll</span>
+              </motion.div>
+            </div>
+
             {statCards.map((card, index) => (
               <motion.div
                 key={index}
@@ -84,14 +99,19 @@ export function PlatformImpact({ stats, isLoading = false }: PlatformImpactProps
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: false, margin: "-20% 0px -20% 0px" }}
                 transition={{ duration: 0.6 }}
-                className={`${card.color} border rounded-xl p-5 shadow-sm mb-4 hover:shadow-md transition-all duration-300 scroll-mt-4`}
+                className={`${card.color} border rounded-xl p-5 shadow-sm mb-6 hover:shadow-md transition-all duration-300 scroll-mt-4`}
                 id={`stat-card-${index}`}
               >
-                <div className="flex items-center space-x-3 mb-3">
-                  <div>
-                    {card.icon}
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-3">
+                    <div className="bg-white p-2 rounded-full shadow-sm">
+                      {card.icon}
+                    </div>
+                    <p className="font-semibold text-gray-900">{card.label}</p>
                   </div>
-                  <p className="font-semibold text-gray-900">{card.label}</p>
+                  <div className="bg-purple-100 bg-opacity-50 px-2 py-1 rounded-full text-xs text-purple-600 font-medium">
+                    #{index + 1}
+                  </div>
                 </div>
                 
                 <h3 className="text-3xl font-bold mb-2">
@@ -112,8 +132,6 @@ export function PlatformImpact({ stats, isLoading = false }: PlatformImpactProps
                 <p className="text-sm text-gray-600">{card.description}</p>
               </motion.div>
             ))}
-            
-            {/* No scroll indicators after the 4th card as requested */}
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
