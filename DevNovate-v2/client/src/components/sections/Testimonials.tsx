@@ -254,24 +254,20 @@ interface TestimonialCardProps {
 function TestimonialCard({ testimonial, isHovered }: TestimonialCardProps) {
   return (
     <Card 
-      className={`h-full rounded-xl overflow-hidden border-0 shadow-sm transition-all duration-300 bg-gradient-to-br from-purple-50 to-pink-50 ${
+      className={`h-full rounded-xl overflow-hidden border-0 shadow-sm transition-all duration-300 bg-white ${
         isHovered 
           ? 'transform scale-105 shadow-md z-20' 
           : 'hover:shadow hover:-translate-y-1'
       }`}
     >
-      <CardContent className="p-6 relative h-[250px] flex flex-col">
-        {/* User Info and Quote Icon in Header */}
-        <div className="flex items-center justify-between mb-2">
+      <CardContent className="p-6 relative h-[300px] flex flex-col">
+        {/* User Info and View All in Header */}
+        <div className="flex items-center justify-between mb-3">
           <div className="flex items-center">
-            <div className="relative">
-              <img 
-                src={testimonial.avatar} 
-                alt={testimonial.name} 
-                className="w-8 h-8 rounded-full object-cover border-0" 
-              />
-              {/* Green status dot */}
-              <div className="absolute bottom-0 right-0 w-2 h-2 bg-green-500 rounded-full border border-white"></div>
+            <div className="relative bg-purple-100 rounded-lg w-8 h-8 flex items-center justify-center">
+              <span className="text-purple-600 text-sm font-semibold">
+                {testimonial.name.split(' ').map(n => n[0]).join('')}
+              </span>
             </div>
             <div className="ml-2">
               <h4 className="font-bold text-gray-900 text-sm">{testimonial.name}</h4>
@@ -280,48 +276,71 @@ function TestimonialCard({ testimonial, isHovered }: TestimonialCardProps) {
                 <p className="text-xs text-gray-600 leading-tight">{testimonial.role}</p>
               </div>
             </div>
+            <div className="ml-2 text-pink-500 text-xs">
+              <span className="px-1.5 py-0.5 bg-pink-50 rounded-full text-[10px]">• {testimonial.challenges} achievements</span>
+            </div>
           </div>
           
-          {/* Quote icon on the right */}
-          <div className="h-8 w-8 flex items-center justify-center text-purple-300/40">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M9.5,17h-5l5,-8h-3v-6h-6v6l-5,8h-5v6h14v-6Zm15,0h-5l5,-8h-3v-6h-6v6l-5,8h-5v6h14v-6Z" fill="currentColor" transform="scale(0.5)"/>
-            </svg>
+          {/* View link on the right */}
+          <div className="text-xs text-blue-600 font-medium">
+            View all
           </div>
         </div>
         
-        {/* Stars */}
-        <div className="mb-2">
-          <div className="flex">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <Star
-                key={i}
-                className="w-4 h-4 text-yellow-400"
-                fill="currentColor"
-                stroke="none"
-              />
-            ))}
+        {/* Challenge Cards */}
+        <div className="mb-2 space-y-2">
+          <div className="flex items-center space-x-2 p-2 rounded-lg bg-green-50">
+            <div className="w-6 h-6 rounded-lg bg-green-100 flex items-center justify-center text-green-600 font-bold text-xs">P</div>
+            <div className="flex-1">
+              <p className="text-xs font-medium text-gray-800">Web3 Hackathon</p>
+              <p className="text-[10px] text-gray-500">Jun 2025</p>
+            </div>
+            <div className="px-2 py-0.5 bg-green-100 rounded-full text-xs text-green-700">
+              2nd Place
+            </div>
+          </div>
+          
+          <div className="flex items-center space-x-2 p-2 rounded-lg bg-cyan-50">
+            <div className="w-6 h-6 rounded-lg bg-cyan-100 flex items-center justify-center text-cyan-600 font-bold text-xs">R</div>
+            <div className="flex-1">
+              <p className="text-xs font-medium text-gray-800">AI Challenge</p>
+              <p className="text-[10px] text-gray-500">May 2025</p>
+            </div>
+            <div className="px-2 py-0.5 bg-cyan-100 rounded-full text-xs text-cyan-700">
+              Finalist
+            </div>
+          </div>
+          
+          <div className="flex items-center space-x-2 p-2 rounded-lg bg-blue-50">
+            <div className="w-6 h-6 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-xs">D</div>
+            <div className="flex-1">
+              <p className="text-xs font-medium text-gray-800">XR Hackathon</p>
+              <p className="text-[10px] text-gray-500">Mar 2025</p>
+            </div>
+            <div className="px-2 py-0.5 bg-blue-100 rounded-full text-xs text-blue-700">
+              Certified
+            </div>
           </div>
         </div>
         
-        {/* Testimonial content */}
-        <p className="text-sm leading-relaxed text-gray-800 mb-auto line-clamp-5">
-          "{testimonial.content}"
-        </p>
+        {/* Skills */}
+        <div className="flex flex-wrap gap-2 mt-2">
+          <div className="px-2 py-1 bg-purple-100 rounded-full text-xs text-purple-700">
+            JavaScript
+          </div>
+          <div className="px-2 py-1 bg-pink-100 rounded-full text-xs text-pink-700">
+            React
+          </div>
+          <div className="px-2 py-1 bg-indigo-100 rounded-full text-xs text-indigo-700">
+            NextJS
+          </div>
+        </div>
         
-        {/* Footer with achievement and challenges */}
-        <div className="flex items-center justify-between text-xs pt-2 mt-auto border-t border-gray-100">
-          <div className="flex items-center text-purple-600 font-medium">
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none">
-              <path d="M12.5 22.5H2.50002C1.5 22.5 1 22 1 21V20.5C1 14.9772 5.47715 10.5 11 10.5H12C17.5228 10.5 22 14.9772 22 20.5V21C22 22 21.5 22.5 20.5 22.5H12.5Z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M15 4.5C15 6.70914 13.2091 8.5 11 8.5C8.79086 8.5 7 6.70914 7 4.5C7 2.29086 8.79086 0.5 11 0.5C13.2091 0.5 15 2.29086 15 4.5Z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            <span className="ml-1.5">{testimonial.achievement}</span>
-          </div>
-          <div className="px-2 py-1 bg-purple-100 rounded-full text-xs flex items-center gap-1 whitespace-nowrap font-medium text-purple-700">
-            <Award className="w-3 h-3" />
-            {testimonial.challenges} challenges
-          </div>
+        {/* Button */}
+        <div className="mt-auto pt-3">
+          <button className="w-full py-2 rounded-lg bg-purple-500 text-white text-sm font-medium hover:bg-purple-600 transition-colors">
+            Share profile
+          </button>
         </div>
       </CardContent>
     </Card>
