@@ -1,7 +1,18 @@
-modules = ["bash", "nodejs-20"]
+modules = ["nodejs-20", "web", "postgresql-16"]
+run = "npm run dev"
+hidden = [".config", ".git", "generated-icon.png", "node_modules", "dist"]
 
 [nix]
 channel = "stable-24_05"
+
+[deployment]
+deploymentTarget = "autoscale"
+build = ["npm", "run", "build"]
+run = ["npm", "run", "start"]
+
+[[ports]]
+localPort = 5000
+externalPort = 80
 
 [workflows]
 runButton = "Project"
@@ -13,10 +24,10 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "DevNovate-App"
+args = "Start application"
 
 [[workflows.workflow]]
-name = "DevNovate-App"
+name = "Start application"
 author = "agent"
 
 [workflows.workflow.metadata]
@@ -27,12 +38,5 @@ task = "packager.installForAll"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "./run_project.sh"
+args = "npm run dev"
 waitForPort = 5000
-
-[deployment]
-run = ["sh", "-c", "chmod +x setup.sh && ./setup.sh"]
-
-[[ports]]
-localPort = 5000
-externalPort = 80
