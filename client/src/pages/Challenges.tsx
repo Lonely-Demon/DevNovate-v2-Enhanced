@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useState, useEffect } from "react"; // Added useEffect for potential future use if needed, not strictly for now
 import { Navbar } from "@/components/sections/Navbar";
 import { Footer } from "@/components/sections/Footer";
+import { allHackathons as hardcodedAllHackathons } from "@/data/all-hackathons";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -46,14 +46,12 @@ export default function ChallengesPage() {
   const [activeTab, setActiveTab] = useState("all");
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
 
-  // Fetch all hackathons
-  const { data: hackathons = [], isLoading } = useQuery<HackathonWithRegistrationStatus[]>({
-    queryKey: ['/api/hackathons'],
-    select: (data) => data.map(hackathon => ({
-      ...hackathon,
-      daysLeft: getDaysLeft(hackathon.endDate)
-    }))
-  });
+  // Use hardcoded hackathons
+  const isLoading = false; // Data is hardcoded
+  const hackathons: HackathonWithRegistrationStatus[] = hardcodedAllHackathons.map(hackathon => ({
+    ...hackathon,
+    daysLeft: getDaysLeft(hackathon.endDate)
+  }));
 
   const filteredHackathons = hackathons.filter(hackathon => {
     if (activeTab === "all") return true;

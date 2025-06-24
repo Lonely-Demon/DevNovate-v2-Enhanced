@@ -7,23 +7,18 @@ import { Features } from "@/components/sections/Features";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { CTA } from "@/components/sections/CTA";
 import { Footer } from "@/components/sections/Footer";
-import { useQuery } from "@tanstack/react-query";
+import { featuredHackathons as hardcodedFeaturedHackathons, FeaturedHackathon } from "@/data/featured-hackathons";
+import { statsData as hardcodedStatsData, StatsType as HardcodedStatsType } from "@/data/stats";
+
 
 export default function Home() {
-  // Fetch featured hackathons for the homepage
-  const { data: featuredHackathons = [], isLoading } = useQuery({
-    queryKey: ['/api/hackathons/featured'],
-  });
+  // Use hardcoded featured hackathons
+  const featuredHackathons: FeaturedHackathon[] = hardcodedFeaturedHackathons;
+  const isLoading = false; // Data is hardcoded for featured hackathons
 
-  // Fetch stats for the homepage
-  const { data: stats = {
-    registeredDevelopers: 0,
-    hostedChallenges: 0,
-    partnerOrganizations: 0,
-    projectsSubmitted: 0
-  }, isLoading: statsLoading } = useQuery({
-    queryKey: ['/api/stats'],
-  });
+  // Use hardcoded stats
+  const stats: HardcodedStatsType = hardcodedStatsData;
+  const statsLoading = false; // Data is hardcoded for stats
 
   return (
     <div className="font-sans bg-white text-foreground min-h-screen">

@@ -3,13 +3,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, CheckCircle, Clock, Users } from "lucide-react";
 import { motion } from "framer-motion";
-import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { featuredHackathons as hardcodedFeaturedHackathons, FeaturedHackathon } from "@/data/featured-hackathons";
+import { statsData as hardcodedStatsData, StatsType as HardcodedStatsType } from "@/data/stats";
+
 
 // Import other sections
 import { Sponsors } from "@/components/sections/Sponsors";
-import { Stats } from "@/components/sections/Stats";
+// import { Stats } from "@/components/sections/Stats"; // Stats component is not used directly, PlatformImpact is
 import { Features } from "@/components/sections/Features";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { PlatformImpact } from "@/components/sections/PlatformImpact";
@@ -22,44 +24,26 @@ export default function LandingPage() {
   const challengesRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
   
-  // Fetch featured hackathons for the homepage
-  const { data: featuredHackathons = [], isLoading } = useQuery({
-    queryKey: ['/api/hackathons/featured'],
-  });
+  // Use hardcoded featured hackathons
+  const featuredHackathons: FeaturedHackathon[] = hardcodedFeaturedHackathons;
+  const isLoading = false; // Data is hardcoded, so not loading for featured hackathons
 
-  // Define stats type
-  type StatsType = {
-    registeredDevelopers: number;
-    hostedChallenges: number;
-    partnerOrganizations: number;
-    projectsSubmitted: number;
-  };
-
-  // Fetch stats for the homepage
-  const { data, isLoading: statsLoading } = useQuery<StatsType>({
-    queryKey: ['/api/stats'],
-  });
-  
-  // Provide fallback when data is undefined
-  const statsData: StatsType = data || {
-    registeredDevelopers: 0,
-    hostedChallenges: 0,
-    partnerOrganizations: 0,
-    projectsSubmitted: 0
-  };
+  // Use hardcoded stats
+  const statsData: HardcodedStatsType = hardcodedStatsData;
+  const statsLoading = false; // Data is hardcoded
   
   // Challenge carousel navigation with improvements for college students (simpler UI, more intuitive)
   const scrollLeft = () => {
     if (challengesRef.current) {
-      // Always scroll by a full card width for better UX
       const cardWidth = 300 + 24; // card width (300px) + gap (24px)
-      challengesRef.current.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+      const currentScrollLeft = challengesRef.current.scrollLeft;
       
-      // For touch devices, ensure scroll position is set even if already at start
-      if (challengesRef.current.scrollLeft <= 10) {
-        // If at the beginning, jump to the end for circular navigation
+      if (currentScrollLeft < cardWidth) { // If scrolling left would go past the beginning or at the beginning
+        // Jump to the end for circular navigation
         const scrollableWidth = challengesRef.current.scrollWidth - challengesRef.current.clientWidth;
         challengesRef.current.scrollTo({ left: scrollableWidth, behavior: 'smooth' });
+      } else {
+        challengesRef.current.scrollBy({ left: -cardWidth, behavior: 'smooth' });
       }
     }
   };
@@ -67,12 +51,11 @@ export default function LandingPage() {
   const scrollRight = () => {
     if (challengesRef.current) {
       const cardWidth = 300 + 24; // card width (300px) + gap (24px)
+      const currentScrollLeft = challengesRef.current.scrollLeft;
+      const scrollableWidth = challengesRef.current.scrollWidth - challengesRef.current.clientWidth;
       
-      // Check if we're at the end and need to loop back
-      const isAtEnd = challengesRef.current.scrollLeft + challengesRef.current.clientWidth >= 
-                     challengesRef.current.scrollWidth - 10;
-                     
-      if (isAtEnd) {
+      // Check if we're at or near the end (within one card scroll)
+      if (currentScrollLeft >= scrollableWidth - cardWidth + 1) { // Add 1 for pixel precision
         // If at the end, jump to the beginning for circular navigation
         challengesRef.current.scrollTo({ left: 0, behavior: 'smooth' });
       } else {
@@ -81,15 +64,15 @@ export default function LandingPage() {
     }
   };
   
-  // Sample challenges data for different categories
+  // Use featuredHackathons for the "Hackathons" category, others can remain sample or be expanded
   const challengesByCategory = {
-    "Hackathons": [1, 2, 3, 4, 5, 6].map(item => ({
-      id: item,
-      title: `AI Innovation Hackathon ${item}`,
-      description: "Build the future with machine learning and artificial intelligence. Open to all skill levels.",
-      format: "Remote",
-      registrations: 250,
-      daysLeft: 7
+    "Hackathons": featuredHackathons.map(h => ({ // Adapt featuredHackathons to the existing structure
+      id: h.id,
+      title: h.title,
+      description: h.description,
+      format: h.format,
+      registrations: h.registrations,
+      daysLeft: h.daysLeft,
     })),
     "Competitions": [1, 2, 3, 4].map(item => ({
       id: item,
