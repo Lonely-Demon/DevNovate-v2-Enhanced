@@ -1,47 +1,83 @@
-# DevNovate-v2 Project Setup
+# DevNovate V2 - Frontend
 
-This project provides an automated setup script for cloning and configuring the [DevNovate-v2](https://github.com/Lonely-Demon/DevNovate-v2) repository.
+A modern React-based hackathon discovery and registration platform.
 
 ## Getting Started
 
-Follow these steps to set up the project:
+### Prerequisites
+- Node.js 18+
+- npm
 
-1. Make the setup script executable:
-   ```
-   chmod +x setup.sh
-   ```
+### Installation
 
-2. Run the setup script:
-   ```
-   ./setup.sh
-   ```
+```bash
+npm install
+```
 
-3. Follow the prompts in the script to complete the setup process.
+### Development
 
-## What the Setup Script Does
+```bash
+npm run dev
+```
 
-The setup script performs the following tasks:
+The app will be available at `http://localhost:5173`
 
-1. Clones the DevNovate-v2 repository from GitHub
-2. Detects the project type (Node.js, Python, Java, etc.)
-3. Installs dependencies based on the project type
-4. Sets up appropriate development environment (e.g., virtual environment for Python)
-5. Configures frontend applications to bind to port 5000 and backend applications to bind to port 8000
-6. Creates helper scripts for running the application
+### Build for Production
 
-## Project Configuration
+```bash
+npm run build
+```
 
-- Frontend applications are configured to bind to port 5000 (0.0.0.0:5000)
-- Backend applications are configured to bind to port 8000 (0.0.0.0:8000)
+### Preview Production Build
 
-## Troubleshooting
+```bash
+npm run preview
+```
 
-If you encounter issues during setup:
+### Type Check
 
-1. Ensure you have the required tools installed (Git, Node.js, Python, etc.)
-2. Check your internet connection
-3. Verify that you have appropriate permissions for the target directory
+```bash
+npm run check
+```
+
+## Project Structure
+
+```
+client/src/
+├── components/       # Reusable React components
+├── pages/           # Page components (LandingPage, Home, About, Community)
+├── hooks/           # Custom React hooks
+├── lib/             # Utility functions
+├── data/            # Mock/static data
+├── App.tsx          # Main app component
+└── main.tsx         # Entry point
+
+shared/
+└── schema.ts        # Shared types and schemas
+```
+
+## Tech Stack
+
+- **React 18** - UI library
+- **TypeScript** - Type safety
+- **Vite** - Build tool and dev server
+- **Tailwind CSS** - Utility-first CSS
+- **Radix UI** - Headless component library
+- **Wouter** - Lightweight router
+- **React Hook Form** - Form state management
+- **Zod** - Schema validation
+- **Framer Motion** - Animations
+- **Recharts** - Data visualization
+
+## Features
+
+- Browse hackathons
+- View featured challenges
+- User profile management
+- Registration tracking
+- Statistics dashboard
+- Responsive design
 
 ## License
 
-This setup script is provided as-is and maintains the original license from the DevNovate-v2 repository.
+MIT
